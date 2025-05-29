@@ -1,29 +1,22 @@
 class Coffee:
-    def __init__(self, name):
-        if not isinstance(name, str):
-            raise TypeError("Name must be a string")
-        if len(name) < 3:
-            raise ValueError("Name must be at least 3 characters")
-        self._name = name
-        self._orders = []
+    def __init__(self,name):
+        self.name = name
 
     @property
     def name(self):
-        return self._name
+        return self._name   
 
-    def orders(self):
-        return self._orders
+    @name.setter
+    def name(self, name):
+        if hasattr(self, "_name"):
+            raise AttributeError("Coffee cannot be changed after initialization.")
+        if isinstance(name, str) and  len(name) >=3: 
+            self._name = name
+        else:
+            raise ValueError("Name must be at least 3 characters.")
+    
+coffee_name = Coffee("Latte")
+print(coffee_name.name)
 
-    def customers(self):
-        return list(set(order.customer for order in self._orders))
+coffee_name.name = "Espresso"
 
-    def num_orders(self):
-        return len(self._orders)
-
-    def average_price(self):
-        if not self._orders:
-            return 0
-        return sum(order.price for order in self._orders) / len(self._orders)
-
-    def add_order(self, order):
-        self._orders.append(order)
